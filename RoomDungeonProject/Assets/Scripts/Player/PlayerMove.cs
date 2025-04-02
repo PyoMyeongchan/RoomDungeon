@@ -151,7 +151,7 @@ public class PlayerMove : MonoBehaviour
             rb.linearVelocity = new Vector2(direction * rollSpeed, 0);
             elapsedTime += Time.deltaTime;
 
-            // 备福扁矫 公利
+            // 备福扁 矫 公利
             gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
             yield return null;
         }
