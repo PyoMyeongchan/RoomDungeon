@@ -67,7 +67,7 @@ public class PlayerMove : MonoBehaviour
 
         // 점프상태
         //rigidbody2D에서 position X,Y 체크하면 점프가 안된다.
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (Input.GetButtonDown("Jump") && isGrounded && !isRolling)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             playerAnimation.TriggerJumping();
