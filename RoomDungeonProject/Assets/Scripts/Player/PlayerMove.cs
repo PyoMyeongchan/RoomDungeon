@@ -36,10 +36,11 @@ public class PlayerMove : MonoBehaviour
             playerAnimation.SetWalking(moveInput != 0);
             moveSpeed = 3.0f;
         }
-        
+
+        // 좌우움직임 구현
         if (moveInput != 0)
         {
-            // 좌우움직임 구현
+            
             GetComponent<SpriteRenderer>().flipX = moveInput < 0;
         }
 
