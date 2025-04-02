@@ -1,3 +1,6 @@
+using System.Collections;
+using System.Linq.Expressions;
+using Unity.Collections;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
@@ -6,20 +9,31 @@ public class PlayerMove : MonoBehaviour
     public float jumpForce = 6.0f;
 
     private Rigidbody2D rb;
-    private Rigidbody2D rb2;
     private bool isGrounded;
 
     [Header("Ground Check")]
     public Transform groundCheck;
     public float groundCheckRadius = 0.2f;
     public LayerMask groundLayer;
+
+    private float groundCheckDistance = 0.6f;
     private PlayerAnimation playerAnimation;
+    
+    public float rollSpeed = 1.0f;
+    public float rollDuration = 0.5f;
+    public bool isRolling = false;
+    private bool airRolling = false;
+  
+    private PlayerAttack playerAttack;
+
+    private Camera mainCamera;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        rb2 = GetComponent<Rigidbody2D>();
         playerAnimation = GetComponent<PlayerAnimation>();
+        mainCamera = Camera.main;
+        playerAttack = GetComponent<PlayerAttack>();    
     }
 
     public void HandleMovement()
@@ -37,14 +51,8 @@ public class PlayerMove : MonoBehaviour
             moveSpeed = 3.0f;
         }
 
-        // 좌우움직임 구현
-        if (moveInput != 0)
-        {
-            
-            GetComponent<SpriteRenderer>().flipX = moveInput < 0;
-        }
-
-        // 달리기 구현
+        FlipPlayer();
+        
         if (Input.GetKey(KeyCode.LeftShift) && isGrounded)
         {
             playerAnimation.SetRun(moveInput != 0);
@@ -75,21 +83,86 @@ public class PlayerMove : MonoBehaviour
         else if (isGrounded)
         {            
             playerAnimation.SetFalling(false);
+
+            airRolling = true;
         }
-
-
 
         
 
-        /* 마우스 방향으로 이동 롤하기
-        if (Input.GetMouseButtonDown(1))
+        // 구르기
+        if (Input.GetMouseButtonDown(1) && !isRolling && playerAttack.isAttacking == false)
         {
-            playerAnimation.TriggerRolling();
-            
-            
-        } 
-        */
+            if (isGrounded || airRolling)
+            {
+                Rolling();
+
+                // 점프시 구르기 한번만 가능하게 하기
+                if (!isGrounded)
+                {
+                    airRolling = false;
+                }
+            }
+        }
+
+        // 구르기시 다른 동작 못하도록 설정
+        if (isRolling)
+        {
+            return;
+        }
+        
 
     }
+
+    // 마우스포인터로 좌우 구현
+    void FlipPlayer()
+    {
+        Vector3 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        if (mousePosition.x < transform.position.x)
+        {
+            GetComponent<SpriteRenderer>().flipX = true;
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().flipX = false;
+        }
+    }
+
+    void Rolling()
+    {
+        float rollDirection = GetComponent<SpriteRenderer>().flipX ? -1 : 1;
+
+        bool isGround = Physics2D.Raycast(transform.position, Vector2.right * rollDirection, groundCheckDistance, groundLayer);
+
+        if (isGround) return;
+
+        isRolling = true;
+        playerAnimation.TriggerRolling();
+        StartCoroutine(Roll(rollDirection));
+    }
+
+    IEnumerator Roll(float direction)
+    {
+        float elapsedTime = 0f;
+        float currentGravity = rb.gravityScale;
+        rb.gravityScale = 0;
+
+        while (elapsedTime < rollDuration)
+        {
+            rb.linearVelocity = new Vector2(direction * rollSpeed, 0);
+            elapsedTime += Time.deltaTime;
+
+            // 구르기시 무적
+            gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
+            yield return null;
+        }
+
+        rb.linearVelocity = Vector2.zero;
+        rb.gravityScale = currentGravity;
+        gameObject.GetComponent<CapsuleCollider2D>().enabled = true;
+        isRolling = false;
+    }
+
+
+
 
 }
