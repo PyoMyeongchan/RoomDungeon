@@ -6,6 +6,7 @@ public class PlayerAttack : MonoBehaviour
 {
     private PlayerAnimation playerAnimation;
     private Animator animator;
+    private PlayerMove playerMove;
 
     private bool isAttacking = false;
 
@@ -16,6 +17,7 @@ public class PlayerAttack : MonoBehaviour
     {
         playerAnimation = GetComponent<PlayerAnimation>();
         animator = GetComponent<Animator>();
+        playerMove = GetComponent<PlayerMove>();
     }
 
 
@@ -37,6 +39,7 @@ public class PlayerAttack : MonoBehaviour
         if (playerAnimation != null)
         {
             playerAnimation.TriggerAttack();
+            playerMove.moveSpeed = 0;
         }
 
         StartCoroutine(AttackCoolDownByAni());
@@ -46,8 +49,7 @@ public class PlayerAttack : MonoBehaviour
     // 공격 딜레이 넣기
     private IEnumerator AttackCoolDownByAni()
     { 
-        isAttacking = true;
-
+        isAttacking = true;        
         yield return null;
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 

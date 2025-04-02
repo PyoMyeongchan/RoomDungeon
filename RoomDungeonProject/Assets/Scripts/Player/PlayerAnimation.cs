@@ -20,9 +20,9 @@ public class PlayerAnimation : MonoBehaviour
         animator.SetBool("IsWalking", isWalking);
     }
 
-    public void SetJumping(bool isJumping)
+    public void TriggerJumping()
     {
-        animator.SetBool("IsJumping",isJumping);
+        animator.SetTrigger("Jump");
     }
 
     public void SetFalling(bool isFalling)

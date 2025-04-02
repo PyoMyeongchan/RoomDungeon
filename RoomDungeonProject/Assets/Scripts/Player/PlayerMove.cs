@@ -26,7 +26,6 @@ public class PlayerMove : MonoBehaviour
     {
         float moveInput = Input.GetAxis("Horizontal");
         rb.linearVelocity = new Vector2 (moveInput * moveSpeed, rb.linearVelocity.y);
-        
 
         // 해당 위치의 레이어를 확인한다
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius,groundLayer);
@@ -57,17 +56,29 @@ public class PlayerMove : MonoBehaviour
         }
 
 
+        // 점프상태
         //rigidbody2D에서 position X,Y 체크하면 점프가 안된다.
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-            playerAnimation.SetJumping(isGrounded);
+            playerAnimation.TriggerJumping();
+
         }
 
+        // 낙하상태
         if (!isGrounded)
         {
-            playerAnimation.SetFalling(!isGrounded);  
+            playerAnimation.SetFalling(true);
+
         }
+        else if (isGrounded)
+        {            
+            playerAnimation.SetFalling(false);
+        }
+
+
+
+        
 
         /* 마우스 방향으로 이동 롤하기
         if (Input.GetMouseButtonDown(1))
