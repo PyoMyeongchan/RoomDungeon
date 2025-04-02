@@ -8,7 +8,7 @@ public class PlayerAttack : MonoBehaviour
     private Animator animator;
     private PlayerMove playerMove;
 
-    private bool isAttacking = false;
+    public bool isAttacking = false;
 
     [Header("애니메이션 상태 이름")]
     public string attackStateName = "Attack1Ani";
@@ -23,7 +23,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void InputAttack()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && playerMove.isRolling == false)
         {
             PerformAttack();
         }
@@ -39,7 +39,6 @@ public class PlayerAttack : MonoBehaviour
         if (playerAnimation != null)
         {
             playerAnimation.TriggerAttack();
-            playerMove.moveSpeed = 0;
         }
 
         StartCoroutine(AttackCoolDownByAni());
