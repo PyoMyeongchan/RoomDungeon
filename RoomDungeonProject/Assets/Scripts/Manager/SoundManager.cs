@@ -109,7 +109,8 @@ public class SoundManager : MonoBehaviour
         // 이건 씬 바꾸면 재생되는 코드
         if (scene.name == "Map1")
         {
-            PlayBGM(BGMType.MainBGM, 1f);
+            // 작업중에는 잠시 꺼두기
+            //PlayBGM(BGMType.MainBGM, 1f);
         }
         else if(scene.name == "Main") 
         {

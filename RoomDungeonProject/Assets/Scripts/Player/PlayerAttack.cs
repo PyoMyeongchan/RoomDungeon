@@ -28,8 +28,14 @@ public class PlayerAttack : MonoBehaviour
         {
             PerformAttack();
 
+            Invoke("AttackShake", 0.3f);
             
         }
+    }
+
+    void AttackShake()
+    {
+        StartCoroutine(CameraManager.instance.Shake());
     }
 
     public void PerformAttack()

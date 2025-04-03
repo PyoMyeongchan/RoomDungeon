@@ -2,10 +2,11 @@ using System.Collections;
 using System.Linq.Expressions;
 using Unity.Collections;
 using UnityEngine;
+using System;
 
 public class PlayerMove : MonoBehaviour
 {
-    public float moveSpeed = 3.0f;
+    public float moveSpeed = 4.0f;
     public float jumpForce = 6.0f;
 
     private Rigidbody2D rb;
@@ -18,7 +19,8 @@ public class PlayerMove : MonoBehaviour
 
     private float groundCheckDistance = 0.6f;
     private PlayerAnimation playerAnimation;
-    
+
+    private Vector2 boxCastSize = new Vector2(0.7f, 0.7f);
     public float rollSpeed = 1.0f;
     public float rollDuration = 0.5f;
     public bool isRolling = false;
@@ -52,18 +54,26 @@ public class PlayerMove : MonoBehaviour
         }
 
         FlipPlayer();
-             
-        if (Input.GetKeyDown(KeyCode.LeftShift) && isGrounded)
+
+        if (Input.GetKey(KeyCode.LeftShift) && isGrounded && !isRolling)
         {
-            playerAnimation.SetRun(moveInput != 0);
-            moveSpeed = 5.0f;
-        }
-        if (Input.GetKeyUp(KeyCode.LeftShift) && isGrounded)
-        {
-            playerAnimation.SetRun(false);
-            moveSpeed = 3.0f;
+
+            playerAnimation.SetRun(true);
+            moveSpeed = 6.5f;
+            // 가만히 있을때 쉬프트키 누르면 달리는 애니메이션이 안나오도록 설정
+            if (Mathf.Abs(rb.linearVelocity.x) == 0)
+            {
+                playerAnimation.SetRun(false);
+            }
 
         }
+        else if (isGrounded && Input.GetKeyUp(KeyCode.LeftShift) && !isRolling)
+        {
+            playerAnimation.SetRun(false);
+            moveSpeed = 4.0f;
+
+        }
+
 
 
         // 점프상태
@@ -74,7 +84,8 @@ public class PlayerMove : MonoBehaviour
             playerAnimation.TriggerJumping();
             SoundManager.instance.PlaySFX(SFXType.JumpSound);
 
-        }
+        }       
+
 
         // 낙하상태
         if (!isGrounded)
@@ -133,7 +144,7 @@ public class PlayerMove : MonoBehaviour
     {
         float rollDirection = GetComponent<SpriteRenderer>().flipX ? -1 : 1;
 
-        bool isGround = Physics2D.Raycast(transform.position, Vector2.right * rollDirection, groundCheckDistance, groundLayer);
+        bool isGround = Physics2D.BoxCast(transform.position, boxCastSize, 0,Vector2.right * rollDirection, groundCheckDistance, groundLayer);
 
         if (isGround) return;
 

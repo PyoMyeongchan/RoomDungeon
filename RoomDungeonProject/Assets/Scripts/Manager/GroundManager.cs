@@ -21,7 +21,13 @@ public class GroundManager : MonoBehaviour
     void Start()
     {
         startPos = transform.position;
-        
+
+
+        if (currentGroundType == GroundType.LeftGround)
+        {
+            direction = -1;
+        }
+
     }
 
     void Update()
@@ -39,18 +45,15 @@ public class GroundManager : MonoBehaviour
             transform.position += new Vector3(speed * direction * Time.deltaTime, 0, 0);
 
         }
-        // 왼쪽으로는 가는데 다시 오른쪽으로 갈때 안돌아가는 버그가 있음
         else if (currentGroundType == GroundType.LeftGround)
         {
-            direction = -1;
-
-            if (transform.position.x < startPos.x - maxDistance)
-            {
-                direction = 1;
-            }
-            else if (transform.position.x > startPos.x + maxDistance)
+            if (transform.position.x > startPos.x + maxDistance)
             {
                 direction = -1;
+            }
+            else if (transform.position.x < startPos.x - maxDistance)
+            {
+                direction = 1;
             }
             transform.position += new Vector3(speed * direction * Time.deltaTime, 0, 0);
         }

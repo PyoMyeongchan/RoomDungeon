@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      potion_A_yellow_half_0: -5628658597369370253
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
