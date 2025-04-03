@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,6 +27,8 @@ public class PlayerAttack : MonoBehaviour
         if (Input.GetButtonDown("Fire1") && playerMove.isRolling == false)
         {
             PerformAttack();
+
+            
         }
     }
 
@@ -64,6 +67,11 @@ public class PlayerAttack : MonoBehaviour
 
         isAttacking = false;
 
+    }
+
+    public void AttackSound()
+    {
+        SoundManager.instance.PlaySFX(SFXType.Attack1Sound);
     }
 
 }

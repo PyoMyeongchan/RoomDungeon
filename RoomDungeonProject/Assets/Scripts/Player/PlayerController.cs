@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        
+
     }
 
     void Update()
@@ -28,4 +28,5 @@ public class PlayerController : MonoBehaviour
         attack.InputAttack();
 
     }
+
 }

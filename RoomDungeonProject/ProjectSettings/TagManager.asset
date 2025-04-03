@@ -3,7 +3,15 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Monster
+  - Item
+  - Key
+  - Tutorial1
+  - Tutorial2
+  - Tutorial3
+  - DeadZone
+  - Tutorial4
   layers:
   - Default
   - TransparentFX
@@ -11,9 +19,9 @@ TagManager:
   - Ground
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Player
+  - Monster
+  - Item
   - 
   - 
   - 

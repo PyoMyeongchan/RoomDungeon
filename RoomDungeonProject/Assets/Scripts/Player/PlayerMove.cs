@@ -53,6 +53,8 @@ public class PlayerMove : MonoBehaviour
 
         FlipPlayer();
         
+        // 버그가 있는거 같은데 원인 파악해볼것
+        // 정확한 버그가 무엇인지 파악하기
         if (Input.GetKey(KeyCode.LeftShift) && isGrounded)
         {
             playerAnimation.SetRun(moveInput != 0);
@@ -60,8 +62,7 @@ public class PlayerMove : MonoBehaviour
         }
         if (Input.GetKeyUp(KeyCode.LeftShift) && isGrounded)
         {
-            playerAnimation.SetRun(false);
-            moveSpeed = 3.0f;
+            playerAnimation.SetRun(false);           
         }
 
 
@@ -71,6 +72,7 @@ public class PlayerMove : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             playerAnimation.TriggerJumping();
+            SoundManager.instance.PlaySFX(SFXType.JumpSound);
 
         }
 
@@ -137,6 +139,7 @@ public class PlayerMove : MonoBehaviour
 
         isRolling = true;
         playerAnimation.TriggerRolling();
+        SoundManager.instance.PlaySFX(SFXType.RollSound);
         StartCoroutine(Roll(rollDirection));
     }
 
@@ -162,6 +165,10 @@ public class PlayerMove : MonoBehaviour
         isRolling = false;
     }
 
+    public void StepSound()
+    {
+        SoundManager.instance.PlaySFX(SFXType.StepSound);
+    }
 
 
 
