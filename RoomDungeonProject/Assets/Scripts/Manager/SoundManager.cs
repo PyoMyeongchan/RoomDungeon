@@ -107,11 +107,11 @@ public class SoundManager : MonoBehaviour
     {
         // 씬말고 맵내에서 바꾸는 것을 활용해서 만들어보자
         // 이건 씬 바꾸면 재생되는 코드
-        if (scene.name == "Main")
+        if (scene.name == "Map1")
         {
             PlayBGM(BGMType.MainBGM, 1f);
         }
-        else if(scene.name == "Map1") 
+        else if(scene.name == "Main") 
         {
             PlayBGM(BGMType.Tutorial_Forest, 1f);
         }

@@ -7,6 +7,7 @@ public class PlayerTrigger : MonoBehaviour
     public GameObject JumpTutorial;
     public GameObject AttackTutorial;
     public GameObject RunTutorial;
+    public GameObject interactTutorial;
 
     private Vector2 startPlayerPos;
 
@@ -51,6 +52,12 @@ public class PlayerTrigger : MonoBehaviour
             RunTutorial.SetActive(true);
 
         }
+
+        if (collision.CompareTag("Tutorial5"))
+        {
+            interactTutorial.SetActive(true);
+
+        }
     }
 
 
@@ -76,6 +83,12 @@ public class PlayerTrigger : MonoBehaviour
         if (collision.CompareTag("Tutorial4"))
         {
             RunTutorial.SetActive(false);
+
+        }
+
+        if (collision.CompareTag("Tutorial5"))
+        {
+            interactTutorial.SetActive(false);
 
         }
     }

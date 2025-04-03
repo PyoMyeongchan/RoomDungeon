@@ -12,6 +12,8 @@ TagManager:
   - Tutorial3
   - DeadZone
   - Tutorial4
+  - Door
+  - Tutorial5
   layers:
   - Default
   - TransparentFX
