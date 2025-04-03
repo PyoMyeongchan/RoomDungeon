@@ -48,21 +48,21 @@ public class PlayerMove : MonoBehaviour
         if (playerAnimation != null)
         {
             playerAnimation.SetWalking(moveInput != 0);
-            moveSpeed = 3.0f;
+            
         }
 
         FlipPlayer();
-        
-        // 버그가 있는거 같은데 원인 파악해볼것
-        // 정확한 버그가 무엇인지 파악하기
-        if (Input.GetKey(KeyCode.LeftShift) && isGrounded)
+             
+        if (Input.GetKeyDown(KeyCode.LeftShift) && isGrounded)
         {
             playerAnimation.SetRun(moveInput != 0);
             moveSpeed = 5.0f;
         }
         if (Input.GetKeyUp(KeyCode.LeftShift) && isGrounded)
         {
-            playerAnimation.SetRun(false);           
+            playerAnimation.SetRun(false);
+            moveSpeed = 3.0f;
+
         }
 
 
